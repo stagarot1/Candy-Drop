@@ -1,0 +1,76 @@
+/* ---------- Root Variables ---------- */
+:root {
+  --color-bg-start: #ffd5c2;
+  --color-bg-end: #d6a9f0;
+  --color-primary: #a84f65;
+  --color-canvas-bg: #fffaf8;
+  --shadow-soft: 0 8px 25px rgba(255, 182, 193, 0.4);
+  --border-radius: 1rem;
+  --max-canvas-width: 25rem;
+  --canvas-aspect-ratio: 3 / 5;
+}
+
+/* ---------- Page Layout ---------- */
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 100vh;
+  min-width: 100vw;
+  background: linear-gradient(180deg, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ---------- Game Layout ---------- */
+.game-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ---------- Header / Score ---------- */
+.score-container {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+ .score-display {
+   font-size: 1.5rem;
+  color: var(--color-primary);
+   font-weight: 600;
+   text-shadow: 0 2px 4px rgba(255, 255, 255, 0.7);
+   margin: 0;
+ } 
+
+/* ---------- Canvas Container ---------- */
+.game-container {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 5vh;
+
+}
+
+.game-grid {
+    max-width: var(--max-canvas-width);
+    aspect-ratio: var(--canvas-aspect-ratio);
+    background-color: var(--color-canvas-bg);
+    border: 3px solid black;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    margin: 1.5rem;
+}
+
+/* ---------- Responsive Adjustments ---------- */
+@media (min-width: 768px) {
+  .score-display {
+    font-size: 2rem;
+  }
+  .game-grid {
+    width: 70vw;
+  }
+}
