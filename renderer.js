@@ -4,32 +4,62 @@ export class Renderer {
     this.ctx = canvas.getContext('2d');
     this.grid = grid;
     this.cellSize = canvas.width / grid.cols;
+    this.candyImages = this.loadCandyImages();
   }
 
-  draw(score) {
-    const ctx = this.ctx;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    for (let y = 0; y < this.grid.rows; y++) {
-      for (let x = 0; x < this.grid.cols; x++) {
-        const candy = this.grid.getCell(x, y);
-        if (candy) {
-          ctx.fillStyle = `hsl(${candy.level * 60}, 80%, 65%)`;
-          ctx.beginPath();
-          ctx.arc(
-            x * this.cellSize + this.cellSize / 2,
-            y * this.cellSize + this.cellSize / 2,
-            this.cellSize / 2 - 4,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-        }
-      }
+  loadCandyImages() {
+    //todo: add candy5 and replace candy4 image
+    const candyPaths = [
+      './assets/candy1.png',
+      './assets/candy2.png',
+      './assets/candy3.png',
+      './assets/candy4.png',
+      
+    ];
+    const images = [];
+    for (const path of candyPaths) {
+      const img = new Image();
+      img.src = path;
+      images.push(img);
     }
-
-    // Update the visible score display instead of drawing text on canvas
-    const scoreDisplay = document.getElementById('scoreDisplay');
-    if (scoreDisplay) scoreDisplay.textContent = `Score: ${score}`;
+    return images;
   }
+
+  
+draw(score, currentCandy = null) {
+  const ctx = this.ctx;
+  ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+  // Draw all candies in the grid
+  for (let y = 0; y < this.grid.rows; y++) {
+    for (let x = 0; x < this.grid.cols; x++) {
+      const candy = this.grid.getCell(x, y);
+      if (!candy) continue;
+
+      const img = this.candyImages[candy.level - 1];
+      if (!img || !img.complete) continue;
+
+      const size = this.cellSize * 0.9;
+      const offsetX = x * this.cellSize + (this.cellSize - size) / 2;
+      const offsetY = y * this.cellSize + (this.cellSize - size) / 2;
+
+      ctx.drawImage(img, offsetX, offsetY, size, size);
+    }
+  }
+
+  // Draw the moving candy on top of the grid
+  if (currentCandy) {
+    const img = this.candyImages[currentCandy.level - 1];
+    if (img && img.complete) {
+      const size = this.cellSize * 0.9;
+      const offsetX = currentCandy.x * this.cellSize + (this.cellSize - size) / 2;
+      const offsetY = currentCandy.y * this.cellSize + (this.cellSize - size) / 2;
+      ctx.drawImage(img, offsetX, offsetY, size, size);
+    }
+  }
+
+  // Draw score
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  if (scoreDisplay) scoreDisplay.textContent = `Score: ${score}`;
+}
 }

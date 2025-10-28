@@ -25,9 +25,40 @@ import * as THREE from 'three';
 import { Game } from './game.js';
 
 const canvas = document.getElementById('gameCanvas');
-const game = new Game(canvas);
+canvas.width = 400;
+canvas.height = 600;
 
-// Drop a candy every 5 seconds
-setInterval(() => {
-  game.update();
-}, 5000);
+let game = null;
+let interval = null;
+
+function startGame() {
+  if (game) return;
+
+  game = new Game(canvas);
+
+  interval = setInterval(() => {
+    game.update();
+
+    if (game.isOver) {
+      clearInterval(interval);
+      interval = null;
+      game = null;
+    }
+  }, 500); // adjust speed
+}
+
+window.addEventListener('keydown', (e) => {
+  if (!game) {
+    if (e.code === 'Space') startGame();
+    return;
+  }
+
+  switch (e.code) {
+    case 'ArrowLeft':
+      game.moveLeft();
+      break;
+    case 'ArrowRight':
+      game.moveRight();
+      break;
+  }
+});

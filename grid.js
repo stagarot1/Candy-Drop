@@ -19,36 +19,30 @@ export class Grid {
     return this.getCell(x, y) === null;
   }
 
-  canMoveDown(candy) {
-    return candy.y < this.rows - 1 && this.isEmpty(candy.x, candy.y + 1);
+  // Check if candy can move down one row
+canMoveDownOne(candy) {
+  const nextY = candy.y + 1;
+  return nextY < this.rows && this.isEmpty(candy.x, nextY);
+}
+
+  // Check if candy can move left/right
+  canMoveSide(candy, dx) {
+    const newX = candy.x + dx;
+    return newX >= 0 && newX < this.cols && this.isEmpty(newX, candy.y);
   }
 
-  dropCandy(candy) {
-    while (this.canMoveDown(candy)) {
-      candy.y++;
-    }
-    this.setCell(candy.x, candy.y, candy);
-  }
-
-  checkMerges() {
-    let merges = [];
-    for (let y = this.rows - 1; y >= 0; y--) {
-      for (let x = 0; x < this.cols; x++) {
-        const candy = this.getCell(x, y);
-        if (!candy) continue;
-        const neighbors = [
-          this.getCell(x + 1, y),
-          this.getCell(x - 1, y),
-          this.getCell(x, y + 1),
-          this.getCell(x, y - 1)
-        ];
-        for (const n of neighbors) {
-          if (n && candy.canMergeWith(n)) {
-            merges.push({ base: candy, target: n });
-          }
-        }
+  // Handle merges after candy lands
+checkMerges() {
+  const merges = [];
+  for (let y = this.rows - 2; y >= 0; y--) { // start from second-to-bottom
+    for (let x = 0; x < this.cols; x++) {
+      const candy = this.cells[y][x];
+      const below = this.cells[y+1][x];
+      if (candy && below && candy.level === below.level) {
+        merges.push({ base: below, target: candy }); // upgrade the one on the bottom
       }
     }
-    return merges;
   }
+  return merges;
+}
 }

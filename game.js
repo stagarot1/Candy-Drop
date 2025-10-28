@@ -7,35 +7,59 @@ export class Game {
     this.grid = new Grid(6, 10);
     this.renderer = new Renderer(canvas, this.grid);
     this.score = 0;
-    this.currentCandy = this.randomCandy();
     this.isOver = false;
+    this.currentCandy = this.randomCandy();
+    this.currentCandy.y = -1; // start above grid
+  }
+
+
+  // Move current candy 
+update() {
+  if (this.isOver) return;
+
+  // Draw first
+  this.renderer.draw(this.score, this.currentCandy);
+
+  // Then try to move down
+if (this.grid.canMoveDownOne(this.currentCandy)) {
+  this.currentCandy.y++;
+} else {
+  this.grid.setCell(this.currentCandy.x, this.currentCandy.y, this.currentCandy);
+  this.handleMerges();   // merge after landing
+  this.currentCandy = this.randomCandy();
+  
+  if (!this.grid.isEmpty(this.currentCandy.x, this.currentCandy.y)) {
+    this.isOver = true;
+    alert(`Game over! Score: ${this.score}`);
+  }
+}
+}
+
+  // Move candy left/right if possible
+  moveLeft() {
+    if (this.grid.canMoveSide(this.currentCandy, -1)) {
+      this.currentCandy.x--;
+    }
+  }
+
+  moveRight() {
+    if (this.grid.canMoveSide(this.currentCandy, 1)) {
+      this.currentCandy.x++;
+    }
   }
 
   randomCandy() {
-    const level = Math.floor(Math.random() * 2) + 1; // level 1 or 2
-    const x = Math.floor(Math.random() * this.grid.cols);
-    return new Candy(level, x, 0);
-  }
+  const level = Math.floor(Math.random() * 4) + 1; // generates 1,2,3,4
+  const x = Math.floor(Math.random() * this.grid.cols);
+  return new Candy(level, x, -1); // start above grid
+}
 
-  update() {
-    if (this.isOver) return;
-    this.grid.dropCandy(this.currentCandy);
-
-    // Check merges
-    const merges = this.grid.checkMerges();
-    merges.forEach(({ base, target }) => {
-      base.upgrade();
-      this.score += base.getPoints();
-      this.grid.setCell(target.x, target.y, null); // remove merged candy
-    });
-
-    // Next candy
-    this.currentCandy = this.randomCandy();
-    if (!this.grid.isEmpty(this.currentCandy.x, 0)) {
-      this.isOver = true;
-      alert(`Game over! Score: ${this.score}`);
-    }
-
-    this.renderer.draw(this.score);
-  }
+handleMerges() {
+  const merges = this.grid.checkMerges();
+  merges.forEach(({ base, target }) => {
+    base.upgrade();
+    this.score += base.getPoints();
+    this.grid.setCell(target.x, target.y, null);
+  });
+}
 }
