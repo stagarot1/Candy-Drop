@@ -10,48 +10,126 @@
   --canvas-aspect-ratio: 3 / 5;
 }
 
-/* ---------- Page Layout ---------- */
+/* General layout */
 .page {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(180deg, #ffd7d7 0%, #ffe5b4 100%);
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  min-height: 100vh;
-  min-width: 100vw;
-  background: linear-gradient(180deg, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
-  overflow: hidden;
+  align-items: center;
   font-family: 'Poppins', sans-serif;
 }
 
-/* ---------- Game Layout ---------- */
+/* Main layout */
 .game-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 
-/* ---------- Header / Score ---------- */
-.score-container {
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
+/* Title */
+.game-header {
+  text-align: center;
+  margin-top: 1rem;
 }
 
- .score-display {
-   font-size: 1.5rem;
-  color: var(--color-primary);
-   font-weight: 600;
-   text-shadow: 0 2px 4px rgba(255, 255, 255, 0.7);
-   margin: 0;
- } 
+.game-title {
+  font-size: 3rem;
+  color: #ff6699;
+  text-shadow: 2px 2px #fff;
+  letter-spacing: 2px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
 
-/* ---------- Canvas Container ---------- */
-.game-container {
-  display: grid;
+/* Content area */
+.game-content {
+  display: flex;
   justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
   width: 100%;
-  margin-bottom: 5vh;
+  height: 85%;
+  padding-bottom: 2rem;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--color-canvas-bg);
+  border: 3px solid black;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+  margin: 1.5rem;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  color: #ff6699;
+  margin-bottom: 1rem;
+}
+
+.candy-key {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.candy-key li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.candy-key img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Score & buttons */
+.score-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-display {
+  font-size: 1.2rem;
+  color: #ff3366;
+}
+
+.controls button {
+  background: #ff99cc;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.controls button:hover {
+  background: #ff6699;
+}
+
+/* Game canvas */
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
@@ -63,14 +141,4 @@
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-soft);
     margin: 1.5rem;
-}
-
-/* ---------- Responsive Adjustments ---------- */
-@media (min-width: 768px) {
-  .score-display {
-    font-size: 2rem;
-  }
-  .game-grid {
-    width: 70vw;
-  }
 }

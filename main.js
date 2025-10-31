@@ -28,23 +28,15 @@ const canvas = document.getElementById('gameCanvas');
 canvas.width = 400;
 canvas.height = 600;
 
-let game = null;
-let interval = null;
+let game = new Game(canvas);
+let isRunning = false;
+let intervalId;
 
 function startGame() {
-  if (game) return;
-
-  game = new Game(canvas);
-
-  interval = setInterval(() => {
-    game.update();
-
-    if (game.isOver) {
-      clearInterval(interval);
-      interval = null;
-      game = null;
-    }
-  }, 500); // adjust speed
+  if (!isRunning) {
+    intervalId = setInterval(() => game.update(), 700);
+    isRunning = true;
+  }
 }
 
 window.addEventListener('keydown', (e) => {
@@ -62,3 +54,14 @@ window.addEventListener('keydown', (e) => {
       break;
   }
 });
+
+
+function pauseGame() {
+  if (isRunning) {
+    clearInterval(intervalId);
+    isRunning = false;
+  }
+}
+
+document.getElementById('playBtn').addEventListener('click', startGame);
+document.getElementById('pauseBtn').addEventListener('click', pauseGame);

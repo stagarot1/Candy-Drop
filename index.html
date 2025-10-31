@@ -8,18 +8,40 @@
   </head>
   <body class="page">
     <main class="game-layout">
-      <div class="score-container">
-        <h1 class="score-display" id="scoreDisplay">Score: 0</h1>
-      </div>
-      
-      <section class="game-container">
-        
-        <canvas id="gameCanvas" class="game-grid"></canvas>
-       
+      <!-- Title -->
+      <header class="game-header">
+        <h1 class="game-title">Candy Drop </h1>
+      </header>
+
+      <section class="game-content">
+        <!-- Candy Key / Sidebar -->
+        <aside class="sidebar">
+          <h2 class="sidebar-title">Candy Levels</h2>
+          <ul class="candy-key">
+            <li><img src="./assets/candy1.png" alt="Candy 1" /> 10 pts</li>
+            <li><img src="./assets/candy2.png" alt="Candy 2" /> 25 pts</li>
+            <li><img src="./assets/candy3.png" alt="Candy 3" /> 50 pts</li>
+            <li><img src="./assets/candy4.png" alt="Candy 4" /> 100 pts</li>
+            <li><img src="./assets/candy5.png" alt="Candy 5" /> 200 pts</li>
+          </ul>
+
+          <!-- Score and Controls -->
+          <div class="score-controls">
+            <h3 class="score-display" id="scoreDisplay">Score: 0</h3>
+            <div class="controls">
+              <button id="pauseBtn">⏸ Pause</button>
+              <button id="playBtn">▶ Play</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Game Area -->
+        <div class="game-container">
+          <canvas id="gameCanvas" class="game-grid"></canvas>
+        </div>
       </section>
     </main>
 
     <script type="module" src="main.js"></script>
-    
   </body>
 </html>

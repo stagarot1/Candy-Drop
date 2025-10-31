@@ -8,13 +8,13 @@ export class Renderer {
   }
 
   loadCandyImages() {
-    //todo: add candy5 and replace candy4 image
+  
     const candyPaths = [
       './assets/candy1.png',
       './assets/candy2.png',
       './assets/candy3.png',
       './assets/candy4.png',
-      
+      './assets/candy5.png',
     ];
     const images = [];
     for (const path of candyPaths) {
